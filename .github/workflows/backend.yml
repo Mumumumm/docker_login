@@ -3,14 +3,14 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - backend # backend 브랜치에 푸쉬할 때 실행
+      - backend # backend 브랜치에 푸시될 때 실행
 
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. DockerHUB 로그인
+      # 1. DockerHub 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -21,23 +21,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 3. MySQL Docker 이미지 빌드 및 푸쉬
+      # 3. MySQL Docker 이미지 빌드 및 푸시
       - name: Build MySQL Docker image
-        working-directory: db # db폴더로 이동
-        run:
+        working-directory: db # db 폴더로 이동
+        run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/dockerdb .
 
       - name: Push MySQL Docker image
-        run:
+        run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/dockerdb
 
-      # 4. Backend Docker 이미지 빌드 및 푸쉬
+      # 4. Backend Docker 이미지 빌드 및 푸시
       - name: Build Backend Docker image
-        run:
+        run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/dockerbackend .
       - name: Push Backend Docker image
-        run:
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/dockerbackend
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/dockerbackend  
 
   deploy:
     needs: build_and_push
