@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Login from "./Login";
+import {useEffect, useState} from "react";
+import TestConponent from "./TestConponent";
+import axios from "axios";
+import {useDispatch} from "react-redux";
+import {setToken} from "./store";
 function App() {
+  const [isLogin, setLogin]=useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!isLogin && <Login onLogin={() => setLogin(true)}></Login>}
+      {isLogin && <TestConponent></TestConponent>}
+    </>
   );
 }
+
+// function App() {
+//   return (
+//       <>
+//       <Login></Login>
+//       </>
+//   );
+// }
 
 export default App;
